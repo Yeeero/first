@@ -1,33 +1,78 @@
 import pygame
+import random
 import time
 from pygame.locals import *
-class HeroPlane(object):
-    def __init__(self,screen,files):
-        self.x = 200
-        self.y = 710
+
+class BasePlane(object):
+    def __init__(self,x,y,screen,files):
+        self.x = x
+        self.y = y
         self.image = pygame.image.load(files)
         self.screen = screen
         self.bullet_list = []
-    def blitHero(self):
+    
+    def display(self):
         self.screen.blit(self.image,(self.x,self.y))
+
+class HeroPlane(BasePlane):
+    def __init__(self,screen,files):
+        BasePlane.__init__(self,200,710,screen,files)
     def moveLeft(self):
         self.x -= 5
     def moveRight(self):
         self.x += 5
     def fire(self):
-        self.bullet_list.append(Bullet(self.screen, self.x, self.y))
+        self.bullet_list.append(Bullet(self.screen, self.x + 40, self.y - 20))
     def display_bullet(self):
         for bullet in self.bullet_list:
             bullet.display()
+            if bullet.judge():
+                self.bullet_list.remove(bullet)#删除越界子弹
+class EnemyPlane(BasePlane):
+    def __init__(self,screen,files):
+        BasePlane.__init__(self,0,0,screen,files)
+        self.direction = "right"
+    def move(self):
+        self.y += 1
+        if self.x > 430:
+            self.direction = "left"
+        if self.x <= 0:
+            self.direction ="right"
+        if self.direction == "right":
+            self.x += 5
+        else:
+            self.x -=5
+
+    def display_bullet(self):
+        for bullet in self.bullet_list:
+            bullet.display1()
+            if bullet.judge():
+                self.bullet_list.remove(bullet)
+
+    def fire(self):
+        r = random.randint(1,100)
+        if r ==1 or r == 20:
+            self.bullet_list.append(Bullet(self.screen, self.x + 25, self.y + 40))
 class Bullet(object):
     def __init__(self,screen,x,y):
         self.screen = screen
-        self.x = x + 40
-        self.y = y - 20
+        self.x = x
+        self.y = y
         self.image = pygame.image.load("./feiji/bullet.png")
+        self.image1 = pygame.image.load('./feiji/bullet1.png')
     def display(self):
         self.screen.blit(self.image,(self.x,self.y))
         self.y -= 10
+
+    def display1(self):
+        self.screen.blit(self.image1,(self.x,self.y))
+        self.y += 10
+    #子弹越界判断
+    def judge(self):
+        if self.y < 0 or self.y > 850 or self.x < 0 or self.x > 480:
+            return True
+        else:
+            return False
 def keyboard_event(hero1):
     #获取键盘事件等
     for event in pygame.event.get():
@@ -51,7 +96,7 @@ def keyboard_event(hero1):
             elif event.key == K_SPACE:
                 print("space")
                 #飞机开火发射子弹
-                bullet = hero1.fire()
+                hero1.fire()
 
 def main():
     #创建窗口
@@ -59,18 +104,24 @@ def main():
     #创建一个背景图片
     background = pygame.image.load("./feiji/background.png")
     #创建一架飞机
-    #hero1 = pygame.image.load("./feiji/hero1.png")
-    #x=200
-    #y=710
     files = "./feiji/hero1.png"
     hero1 = HeroPlane(screen,files)
+    #创建敌方飞机
+    e_files0="./feiji/enemy0.png"
+    enemy0 = EnemyPlane(screen,e_files0)
     while True:
         #映射背景图
         screen.blit(background,(0,0))
         #映射己方飞机
-        hero1.blitHero()
+        hero1.display()
         #映射子弹
         hero1.display_bullet()
+        #映射敌方飞机
+        enemy0.display()
+        enemy0.move()
+        enemy0.fire()
+        enemy0.display_bullet()
+        #更新界面图
         pygame.display.update()
         keyboard_event(hero1)
         time.sleep(0.01)
