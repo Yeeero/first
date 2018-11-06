@@ -1,14 +1,15 @@
-#´´½¨ÆÁÄ»
+#åˆ›å»ºå±å¹•
 screen
 class Plane:
 	def __init__(self,screen):
 		self.x=200
 		self.y=710
 		self.screen=screen
+		self.image = pygame.xxx.load("file")
 		self.bullet_list = []
-	#Ó³Éä·É»ú
+	#æ˜ å°„é£æœº
 	def display(self):
-	#Ó³Éä×Óµ¯
+	#æ˜ å°„å­å¼¹
 	def display_bullet(self):
 		for bullet in self.bullet_list:
 			bullet.display()
@@ -24,27 +25,27 @@ class Bullet:
 	def display(self):
 		screen.blit.load(bullet,(self.x+10,self.y-20))
 		self.y -= 10
-#´´½¨±³¾°Í¼
+#åˆ›å»ºèƒŒæ™¯å›¾
 background
-#´´½¨·É»ú
+#åˆ›å»ºé£æœº
 hero = Plane()
 
-#´´½¨×Óµ¯
+#åˆ›å»ºå­å¼¹
 bullet
 while True
-	#Ó³Éä±³¾°Í¼
+	#æ˜ å°„èƒŒæ™¯å›¾
 	screen.blit.load(background,(0,0))
-	#Ó³Éä·É»ú
+	#æ˜ å°„é£æœº
 	hero.display()
-	#Ó³Éä×Óµ¯
+	#æ˜ å°„å­å¼¹
 	hero.display_bullet()
-	#¸üĞÂ
+	#æ›´æ–°
 	update
-	#£¨¼üÅÌ£©ÊÂ¼ş¼àÌı
+	#ï¼ˆé”®ç›˜ï¼‰äº‹ä»¶ç›‘å¬
 	event
 	#left
 	hero.move_left()
 	#right
 	hero.move_right()
-	#spaceµã»÷
+	#spaceç‚¹å‡»
 	hero.fire()
