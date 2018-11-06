@@ -1,0 +1,50 @@
+#创建屏幕
+screen
+class Plane:
+	def __init__(self,screen):
+		self.x=200
+		self.y=710
+		self.screen=screen
+		self.bullet_list = []
+	#映射飞机
+	def display(self):
+	#映射子弹
+	def display_bullet(self):
+		for bullet in self.bullet_list:
+			bullet.display()
+	def move_left(self):
+	def move_right(self):
+	def fire():
+		self.bullet_list.append(Bullet(screen,self.x,self,y))
+class Bullet:
+	def __init__(self,screen,x,y):
+		self.x=x
+		self.y=y
+		self.screen=screen
+	def display(self):
+		screen.blit.load(bullet,(self.x+10,self.y-20))
+		self.y -= 10
+#创建背景图
+background
+#创建飞机
+hero = Plane()
+
+#创建子弹
+bullet
+while True
+	#映射背景图
+	screen.blit.load(background,(0,0))
+	#映射飞机
+	hero.display()
+	#映射子弹
+	hero.display_bullet()
+	#更新
+	update
+	#（键盘）事件监听
+	event
+	#left
+	hero.move_left()
+	#right
+	hero.move_right()
+	#space点击
+	hero.fire()
