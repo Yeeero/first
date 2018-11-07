@@ -10,10 +10,13 @@ class BasePlane(object):
         self.image = pygame.image.load(files)
         self.screen = screen
         self.bullet_list = []
-    
+    #映射飞机
     def display(self):
         self.screen.blit(self.image,(self.x,self.y))
 
+class BaseBullet(object):
+    
+        
 class HeroPlane(BasePlane):
     def __init__(self,screen,files):
         BasePlane.__init__(self,200,710,screen,files)
