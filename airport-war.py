@@ -2,14 +2,14 @@ import pygame
 import random
 import time
 from pygame.locals import *
-
+#基类
 class Base(object):
     def __init__(self,x,y,screen,files):
         self.screen = screen
         self.x = x
         self.y = y
         self.image = pygame.image.load(files);
-
+#飞机基类
 class BasePlane(Base):
     def __init__(self,x,y,screen,files):
         Base.__init__(self,x,y,files)
@@ -17,12 +17,13 @@ class BasePlane(Base):
     #映射飞机
     def display(self):
         self.screen.blit(self.image,(self.x,self.y))
+    #映射子弹
     def display_bullet(self):
         for bullet in self.bullet_list:
             bullet.display()
             if bullet.judge():
                 self.bullet_list.remove(bullet)#删除越界子弹
-                
+#子弹基类               
 class BaseBullet(Base):
     def __init__(self,screen,x,y,files):
         Base.__init__(self,x,y,files)
@@ -35,10 +36,13 @@ class BaseBullet(Base):
 class HeroPlane(BasePlane):
     def __init__(self,screen,files):
         BasePlane.__init__(self,200,710,screen,files)
+    #飞机左移
     def moveLeft(self):
         self.x -= 5
+    #飞机右移
     def moveRight(self):
         self.x += 5
+    #飞机发射子弹
     def fire(self):
         self.bullet_list.append(Bullet(self.screen, self.x + 40, self.y - 20))
 
